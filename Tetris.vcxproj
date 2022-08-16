@@ -471,6 +471,7 @@ copy /Y "$(SolutionDir)resources"  "$(TargetDir)resources\"</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Tetramino.cpp" />
     <ClCompile Include="TetrisGame.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -688,6 +689,7 @@ copy /Y "$(SolutionDir)resources"  "$(TargetDir)resources\"</Command>
     <ClInclude Include="extlibs\include\SFML\Window\WindowHandle.hpp" />
     <ClInclude Include="extlibs\include\SFML\Window\WindowStyle.hpp" />
     <ClInclude Include="libs.h" />
+    <ClInclude Include="Tetramino.h" />
     <ClInclude Include="TetrisGame.h" />
   </ItemGroup>
   <ItemGroup>

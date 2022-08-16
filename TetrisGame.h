@@ -1,7 +1,19 @@
 #pragma once
 #include "libs.h"
+#include "Tetramino.h"
 
-class TetrisGame
+namespace tetrisGame
+{
+
+
+
+
+
+	class TetrisGame;
+}
+
+
+class tetrisGame::TetrisGame
 {
 public:
 
@@ -17,28 +29,30 @@ public:
 
 
 private:
-	const std::string& TEXTURE_PATH = "C:\\Projects\\cpp\\Tetris\\images\\bricks.PNG";
 
 	const std::unique_ptr<RenderWindow> __window_ptr;
 	RenderWindow& window;
 
-	// sprites on canvas that draw each frame update
-	//  TODO maybe call it "canvas"
-	std::vector<Sprite> sprites;
+	// the game field - 2d array
+	array2D(GAMEFIELD_ROWS, GAMEFIELD_COLS) gameField { 0 };
 
 
-	/** 
-	draws all sprites with their position on the window
-	
-	each added sprite must be stored in spites field 
-	*/
-	void drawAllSprites();
 
 	/**
-	creates a simple sprite and adds it to the window
+	* when user presses left/right arrow
+	*	 - move actife figure to the left/right
+	*		respectively
 	*/
-	void createSprite(const Texture& texture);
+	void handleHorizontalMovement(const Event& event, Tetramino& activeTetramino);
 
-	Texture&& createTexture();
+	/**
+	* 
+	*/
+	void handleRotate(const Event& event, Tetramino& activeTetramino);
+
+	/**
+	* 
+	*/
+	void moveDown(Tetramino &activeTetramino,const int delay_ms = 300);
 };
 

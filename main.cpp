@@ -4,7 +4,7 @@
 
 int main()
 {
-	TetrisGame game;
+	tetrisGame::TetrisGame game;
 	game.run();
 
 	return EXIT_SUCCESS;
