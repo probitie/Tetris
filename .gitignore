@@ -1,8 +1,7 @@
 x64/
 x86/
 .vs/
-extlibs/bin
-extlibs/lib
+extlibs/
 todo*
 packages/
 resources/

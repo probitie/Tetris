@@ -35,12 +35,12 @@ void ActiveFigure::rotate()
 
 const double ActiveFigure::getMostLeftX() const
 {
-    return 0.0;
+    return rectangle.getPosition().x;
 }
 
 const double ActiveFigure::getMostRightX() const
 {
-    return 0.0;
+    return rectangle.getPosition().x + TETRIS_BLOCK_W;
 }
 
 const std::vector<sf::Vector2f> ActiveFigure::getEachBottomLineCoordinates() const

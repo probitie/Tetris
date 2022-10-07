@@ -1,4 +1,5 @@
 #include "Tetris.h"
+#include <SFML/System/Sleep.hpp>
 
 Tetris::Tetris(RenderWindow& window)
 	: window{ window }, field{ window }
@@ -105,6 +106,6 @@ void Tetris::outputUserLose()
 
 void Tetris::pause()
 {
-	// nothing here ...
+	//sleep(sf::milliseconds(TETRIS_FRAMES_DELAY_MS));
 }
 

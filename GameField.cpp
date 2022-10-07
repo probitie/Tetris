@@ -33,50 +33,82 @@ void GameField::moveActiveFigureLeft()
 
 void GameField::moveActiveFigureDown()
 {
-	
+	activeFigure.move(sf::Vector2f(0, TETRIS_FIGURE_VERTICAL_SPEED_PX));
 }
 
 void GameField::moveActiveFigureForceDown()
 {
 	debuglog("move active figure to nearest block below");
+	while (!isActiveFigureOnBottomOrFieldBlocks())
+		moveActiveFigureDown();
 }
 
 void GameField::rotateActiveFigure()
 {
-	debuglog("rotate active figure on 90 degrees");
+	activeFigure.rotate();
 }
 
 std::vector<int> GameField::getFullRowsIndexes()
 {
-	return std::vector<int>{};
+	return fieldBlocks.getFullRowsIndexes();
 }
 
-void GameField::deleteRowAndSqueeze(int rowIndex)
+void GameField::deleteRowAndSqueeze(const int rowIndex)
 {
-	debuglog("deleting row " << rowIndex << " and compress field blocks");
+	fieldBlocks.deleteRowAndSqueeze(rowIndex);
 }
 
 bool GameField::isActiveFigureOnBottomOrFieldBlocks()
 {
+	// if any field block lies exactly under any figure block
+	// (without no space between them)
+	for (const auto& figureBlockCoordinates : activeFigure.getEachBottomLineCoordinates())
+		for (const auto& fieldBlockCoordinates : fieldBlocks.getEachTopLineCoordinates())
+			if (areBlocksCollided(figureBlockCoordinates, fieldBlockCoordinates))
+				return true;
 	return false;
 }
 
-void GameField::onLeftBound()
+bool GameField::areBlocksCollided(const sf::Vector2f& first, const sf::Vector2f& second)
 {
-	debuglog("can not move figure left (left bound is on the left side)");
-}
+	auto firstXright = first.x + TETRIS_BLOCK_W;
+	auto firstYright = first.y + TETRIS_BLOCK_W;
 
-void GameField::onRightBound()
-{
-	debuglog("can not move figure right (right bound is on the right side)");
+
+	auto secondXright = second.x + TETRIS_BLOCK_W;
+	auto secondYright = second.y + TETRIS_BLOCK_W;
+
+
+	auto inRange = [](auto& min, auto& max, auto& val) -> bool {
+		return min <= val && val <= max;
+	};
+
+	// check X firstly (wether blocks are really one under another)
+	const bool isSecondUnderFirst =
+		inRange(second.x, secondXright, first.x) ||  // left point in range
+		inRange(second.x, secondXright, firstXright);  //  or right point in range
+		
+	
+	// then check their collision by Y (first block bottom crossed top of second)
+	const bool isBlocksCollided =
+		inRange(second.y, secondXright, first.y) ||  // left point in range
+		inRange(second.y, secondXright, firstYright);  //  or right point in range
+
+	return isSecondUnderFirst && isBlocksCollided;
 }
 
 void GameField::joinActiveToFieldBlocks()
 {
 	debuglog("join active figure to field blocks");
+	fieldBlocks.join(activeFigure);
+	resetActiveFigure();
 }
 
 void GameField::resetActiveFigure()
 {
-	debuglog("creating new active figure");
+	debuglog("recreate active figure");
+	activeFigure.newRandowFigure();
 }
+
+
+

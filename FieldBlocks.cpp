@@ -15,6 +15,7 @@ const std::vector<int> FieldBlocks::getFullRowsIndexes() const
 
 void FieldBlocks::deleteRowAndSqueeze(const int index)
 {
+	debuglog("deleting row " << index << " and compress field blocks");
 }
 
 const std::vector<sf::Vector2f> FieldBlocks::getEachTopLineCoordinates() const

@@ -78,7 +78,7 @@ public:
 	/// between top row and bottom screen side
 	/// </summary>
 	/// <param name="rowIndex"> index of that row (top row has index 0)</param>
-	void deleteRowAndSqueeze(int rowIndex);
+	void deleteRowAndSqueeze(const int rowIndex);
 
 	/// <summary>
 	/// whether current tetramino lies on the bottom screen side or 
@@ -88,18 +88,12 @@ public:
 	bool isActiveFigureOnBottomOrFieldBlocks();
 
 	/// <summary>
-	/// returns true if current tetramino touches left bound 
-	/// 
-	/// (so can not move to the left)
+	/// checks block collision
 	/// </summary>
-	void onLeftBound();
-
-	/// <summary>
-	/// returns true if current tetramino touches right bound 
-	/// 
-	/// (so can not move to the right)
-	/// </summary>
-	void onRightBound();
+	/// <param name="first"> first block coordinates </param>
+	/// <param name="second"> second block coordinates </param>
+	/// <returns> if one block collided another </returns>
+	bool areBlocksCollided(const sf::Vector2f &first, const sf::Vector2f& second);
 
 	/// <summary>
 	/// takes blocks from current tetramino and pass their ownership to field blocks

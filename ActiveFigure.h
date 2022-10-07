@@ -11,8 +11,6 @@ class ActiveFigure
 
 	// TODO THAT'S JUST FOR DEVELOPING NOT FOR ACTUAL USE
 private:
-	//создать тестовый квадратик на котором пока что будет
-	// чекатьс яуправление и падение и падение до пола и тд
 	sf::RectangleShape rectangle;
 
 
@@ -45,8 +43,7 @@ public:
 	///				
 	/// so, places where is * - is the most bottom blocks on each line
 	/// 
-	/// WARNING it returns NOT a lowest block coordinates but points on bottom
-	///  left side of each block (y is left the same, x' = x+block.width)
+	/// WARNING it returns a lowest block coordinates (e.g a vector with all "*" coords)
 	/// </summary>
 	/// <returns></returns>
 	const std::vector<sf::Vector2f> getEachBottomLineCoordinates() const;
