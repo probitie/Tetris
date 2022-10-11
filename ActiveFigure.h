@@ -3,15 +3,26 @@
 #include "constants.h"
 #include "Block.h"
 #include "figure_properties.h"
+#include "types.h"
 
 #include <SFML/Graphics/RectangleShape.hpp>
+
 
 class ActiveFigure
 {
 
-	// TODO THAT'S JUST FOR DEVELOPING NOT FOR ACTUAL USE
 private:
-	sf::RectangleShape rectangle;
+	
+	// shared ptr to one texture for all blocks
+	// bloks are created when trying to draw or move them or field figure
+	std::shared_ptr<sf::Texture> texture;
+
+	// figure coordinates
+	sf::Vector2f coordinates;
+
+	// block coordinates relate to top left figure block
+	// to convert our tetramino figures into coordinates, that are relative from first figure block(that can be not exist)
+	std::array<Point, TETRIS_FIGURE_BLOCK_AMOUNT> relativeCoordinates{ 0 };
 
 
 public:
@@ -56,6 +67,10 @@ public:
 
 private:
 	void setProperties(const FigureForm& form, const FigureColor& color, const sf::Vector2f& position);
+
+
+
+	sf::Vector2f toAbsoluteCoordinates(const Point& relative) const;
 
 };
 

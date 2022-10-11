@@ -1,5 +1,7 @@
 #pragma once
 
+
+
 /**
 * each value of the enum is an index of
 * a corresponding brick texture in

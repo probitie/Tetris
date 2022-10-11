@@ -11,6 +11,11 @@
 #define TETRIS_BLOCK_AMOUNT_ROW 10
 #define TETRIS_BLOCK_AMOUNT_COL 30
 
+#define TETRIS_FIGURE_BLOCK_AMOUNT_COL 4 //height
+#define TETRIS_FIGURE_BLOCK_AMOUNT_ROW 2 //width
+
+#define TETRIS_FIGURE_BLOCK_AMOUNT (TETRIS_FIGURE_BLOCK_AMOUNT_COL*TETRIS_FIGURE_BLOCK_AMOUNT_ROW) // block amount (width * height)
+
 #define TETRIS_FIGURE_VERTICAL_SPEED_PX 1
 
 // top left gamefield point (actually a top and left margin)
