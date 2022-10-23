@@ -6,7 +6,8 @@
 #include "types.h"
 
 #include <SFML/Graphics/RectangleShape.hpp>
-
+#include <SFML/Graphics/Sprite.hpp>
+#include <SFML/Graphics.hpp>
 
 class ActiveFigure
 {
@@ -24,10 +25,19 @@ private:
 	// to convert our tetramino figures into coordinates, that are relative from first figure block(that can be not exist)
 	std::array<Point, TETRIS_FIGURE_BLOCK_AMOUNT> relativeCoordinates{ 0 };
 
+	sf::RenderWindow& window;
+
+	// test
+	sf::Sprite brick;
 
 public:
 
+	void setColor(FigureColor color);
+
 	ActiveFigure(sf::RenderWindow& window);
+
+
+	void draw();
 
 	void newRandowFigure();
 
@@ -43,6 +53,8 @@ public:
 
 	const double getMostLeftX() const;
 	const double getMostRightX() const;
+	const double getBottomY() const;
+
 
 	/// <summary>
 	/// 
@@ -57,7 +69,7 @@ public:
 	/// WARNING it returns a lowest block coordinates (e.g a vector with all "*" coords)
 	/// </summary>
 	/// <returns></returns>
-	const std::vector<sf::Vector2f> getEachBottomLineCoordinates() const;
+	const std::vector<sf::Vector2f> getAllBlocksCoordinates() const;
 
 	/// <summary>
 	/// takes blocks from figure and gives them to u))

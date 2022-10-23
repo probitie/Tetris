@@ -20,6 +20,8 @@ private:
 
 public:
 
+	void draw();
+
 	/// <summary>
 	/// Gamefield on a startup is without an active tetramino and with empty field blocks.
 	///  You should initialize the active tetramino implicitly

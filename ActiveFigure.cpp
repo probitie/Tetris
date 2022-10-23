@@ -22,20 +22,59 @@ sf::Vector2f ActiveFigure::toAbsoluteCoordinates(const Point& relative) const
     return sf::Vector2f(x, y); // TODO maybe replace with "return {x, y};"
 }
 
-ActiveFigure::ActiveFigure(sf::RenderWindow& window)
+ActiveFigure::ActiveFigure(sf::RenderWindow& window) : window{window}
 {
     debuglog("init active figure container in this window");
+	// load texture
+	texture = std::make_shared<sf::Texture>();
+	texture->loadFromFile(TEXTURE_PATH);
+	//brick.setTexture(*texture);
+	setColor(FigureColor::darkBlue);
 }
 
 void ActiveFigure::newRandowFigure()
 {
     debuglog("create new figure");
+	setProperties(FigureForm::T, FigureColor::darkBlue, sf::Vector2f(20.0f, 0.0f));
+}
 
+void ActiveFigure::draw()
+{
+	// if game field cell has value 0 - there is no brick
+	// BRICKS::darkBlue - first brick color
+	// BRICKS::violet - second brick color etc
+
+	// TODO go through game field matrix and paint necessary block in
+	// a real window
+
+	// TODO move to method std::array<Point, 4> createFigure(TETRAMINO::J)
+
+	// TODO draw all tetramino figures in other method
+
+
+	// draw it on the game field
+	for (int i{0}; i < 4; ++i)
+	{
+		// use only one poor(( sprite
+		// to draw our figure
+
+		brick.setPosition(toAbsoluteCoordinates(relativeCoordinates[i]));
+		window.draw(brick);
+	}
+
+}
+void ActiveFigure::setColor(FigureColor color)
+{
+	brick.setTexture(*texture);
+	// todo now it only darkBlue
+	brick.setTextureRect(sf::IntRect(2, 2, 21, 21));
 }
 
 void ActiveFigure::setProperties(const FigureForm& form, const FigureColor& color, const sf::Vector2f& position)
 {
     debuglog("set new properties to the active figure conainer");
+
+	coordinates = position;
 
 	// create figure
 	for (int i{ 0 }; i < TETRIS_FIGURE_BLOCK_AMOUNT_COL; ++i)
@@ -76,31 +115,86 @@ void ActiveFigure::setProperties(const FigureForm& form, const FigureColor& colo
 	//createFigure();
 }
 
+// only changes figure coordinates but not the bricks
 void ActiveFigure::move(const sf::Vector2f& vector)
 {
-    debuglog("moving to x: " << vector.x << "; y: " << vector.y << ";");
-    //rectangle.move(vector);
-
+	this->coordinates.x += vector.x;
+	this->coordinates.y += vector.y;
 }
 
 void ActiveFigure::rotate()
 {
     debuglog("rotate figure");
+
+	// second block is a rotate center ( index 1 )
+	const Point& rotateCenter = relativeCoordinates[1];
+
+	for (auto& blockPoint : relativeCoordinates)
+	{
+		int dx = blockPoint.y - rotateCenter.y;
+		int dy = blockPoint.x - rotateCenter.x;
+
+		blockPoint.x = rotateCenter.x - dx;
+		blockPoint.y = rotateCenter.y + dy;
+
+	}
+
+
 }
 
 const double ActiveFigure::getMostLeftX() const
 {
-    return 0;
+	// TODO stl min
+	double mostLeftX{ toAbsoluteCoordinates(relativeCoordinates.at(0)).x };
+	for (auto& el : relativeCoordinates)
+	{
+		auto absCoord = toAbsoluteCoordinates(el);
+		if (absCoord.x < mostLeftX)
+		{
+			mostLeftX = absCoord.x;
+		}
+	}
+	return mostLeftX;
 }
 
 const double ActiveFigure::getMostRightX() const
 {
-    return 0;
+	// TODO stl max
+	double mostRightX{ toAbsoluteCoordinates(relativeCoordinates.at(0)).x };
+	for (auto& el : relativeCoordinates)
+	{
+		auto absCoord = toAbsoluteCoordinates(el);
+		if (absCoord.x > mostRightX)
+		{
+			mostRightX = absCoord.x;
+		}
+	}
+	return mostRightX;
 }
 
-const std::vector<sf::Vector2f> ActiveFigure::getEachBottomLineCoordinates() const
+const double ActiveFigure::getBottomY() const
 {
-    return std::vector<sf::Vector2f>();
+	// TODO stl max
+	double bottomY{ toAbsoluteCoordinates(relativeCoordinates.at(0)).y };
+	for (auto& el : relativeCoordinates)
+	{
+		auto absCoord = toAbsoluteCoordinates(el);
+		if (absCoord.y > bottomY)
+		{
+			bottomY = absCoord.y;
+		}
+	}
+	return bottomY + TETRIS_BLOCK_H;
+};
+
+const std::vector<sf::Vector2f> ActiveFigure::getAllBlocksCoordinates() const
+{
+    std::vector<sf::Vector2f> result;
+	for (const auto& el : relativeCoordinates)
+	{
+		result.push_back(toAbsoluteCoordinates(el));
+	}
+	return result;
 }
 
 const std::vector<std::unique_ptr<Block>> ActiveFigure::popBottomBlocks()

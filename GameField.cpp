@@ -7,6 +7,13 @@ GameField::GameField(sf::RenderWindow& window)
 
 	// when the game starts
 	activeFigure.newRandowFigure();
+
+}
+
+void GameField::draw()
+{
+	activeFigure.draw();
+	// fieldBlocks.draw();
 }
 
 void GameField::moveActiveFigureRight()
@@ -33,14 +40,17 @@ void GameField::moveActiveFigureLeft()
 
 void GameField::moveActiveFigureDown()
 {
-	activeFigure.move(sf::Vector2f(0, TETRIS_FIGURE_VERTICAL_SPEED_PX));
+	const double y = activeFigure.getBottomY();
+	if(y<TETRIS_APP_HEIGHT)
+		activeFigure.move(sf::Vector2f(0, TETRIS_FIGURE_VERTICAL_SPEED_PX));
 }
 
 void GameField::moveActiveFigureForceDown()
 {
 	debuglog("move active figure to nearest block below");
 	while (!isActiveFigureOnBottomOrFieldBlocks())
-		moveActiveFigureDown();
+		activeFigure.move(sf::Vector2f(0, TETRIS_FIGURE_VERTICAL_SPEED_PX));
+
 }
 
 void GameField::rotateActiveFigure()
@@ -62,10 +72,14 @@ bool GameField::isActiveFigureOnBottomOrFieldBlocks()
 {
 	// if any field block lies exactly under any figure block
 	// (without no space between them)
-	for (const auto& figureBlockCoordinates : activeFigure.getEachBottomLineCoordinates())
+	for (const auto& figureBlockCoordinates : activeFigure.getAllBlocksCoordinates())
+	{
+		if (activeFigure.getBottomY() >= TETRIS_APP_HEIGHT)
+			return true;
 		for (const auto& fieldBlockCoordinates : fieldBlocks.getEachTopLineCoordinates())
 			if (areBlocksCollided(figureBlockCoordinates, fieldBlockCoordinates))
 				return true;
+	}
 	return false;
 }
 

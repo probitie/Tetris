@@ -38,6 +38,8 @@ void Tetris::play()
 		window.clear(TETRIS_BACKGROUND_COLOR);
 
 		update();
+
+		field.draw();
 		window.display();
 
 		pause();
@@ -49,10 +51,12 @@ void Tetris::handleKeyEvent(const Event &ev)
 	// events are - move active tetramino left - move right - move down
 	if (ev.key.code == TETRIS_RIGHT) // TODO event getKey == TETRIS_KEY_LEFT
 	{
+		debuglog("moving right");
 		field.moveActiveFigureRight();
 	}
 	else if (ev.key.code == TETRIS_LEFT)
 	{
+		debuglog("moving left");
 		field.moveActiveFigureLeft();
 	}
 	else if (ev.key.code == TETRIS_ROTATE)
