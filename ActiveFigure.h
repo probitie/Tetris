@@ -30,6 +30,8 @@ private:
 	// test
 	sf::Sprite brick;
 
+	FigureColor currentColor;
+
 public:
 
 	void setColor(FigureColor color);
@@ -75,7 +77,7 @@ public:
 	/// takes blocks from figure and gives them to u))
 	/// (move semantic is here)
 	/// </summary>
-	const std::vector<std::unique_ptr<Block>> popBottomBlocks();
+	const std::vector<Block> getBlocks();
 
 private:
 	void setProperties(const FigureForm& form, const FigureColor& color, const sf::Vector2f& position);

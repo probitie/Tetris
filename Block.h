@@ -8,10 +8,11 @@
 class Block
 {
 private:
-	float coordinates[2]; // x, y
+	sf::Vector2f coordinates; // x, y
 	FigureColor color;
 
 public:
-	Block(const FigureColor& color, const sf::Vector2f &position);
+	Block(const FigureColor& color, const sf::Vector2f position);
 
+	inline sf::Vector2f getPosition() const { return coordinates; }
 };

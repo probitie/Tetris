@@ -97,11 +97,7 @@ public:
 	/// <returns> if one block collided another </returns>
 	bool areBlocksCollided(const sf::Vector2f &first, const sf::Vector2f& second);
 
-	/// <summary>
-	/// takes blocks from current tetramino and pass their ownership to field blocks
-	/// and then deactivates current tetramino
-	/// </summary>
-	void joinActiveToFieldBlocks();
+
 
 	/// <summary>
 	/// creates a new figure

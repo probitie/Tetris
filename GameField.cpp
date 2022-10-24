@@ -1,7 +1,7 @@
 #include "GameField.h"
 
 GameField::GameField(sf::RenderWindow& window)
-	: window{ window }, fieldBlocks{ }, activeFigure{window}
+	: window{ window }, fieldBlocks{ window }, activeFigure{window}
 {
 	debuglog("game field initialized");
 
@@ -13,7 +13,7 @@ GameField::GameField(sf::RenderWindow& window)
 void GameField::draw()
 {
 	activeFigure.draw();
-	// fieldBlocks.draw();
+	fieldBlocks.draw();
 }
 
 void GameField::moveActiveFigureRight()
@@ -72,11 +72,13 @@ bool GameField::isActiveFigureOnBottomOrFieldBlocks()
 {
 	// if any field block lies exactly under any figure block
 	// (without no space between them)
-	for (const auto& figureBlockCoordinates : activeFigure.getAllBlocksCoordinates())
+	auto figureblocks = activeFigure.getAllBlocksCoordinates();
+	auto fieldblocks = fieldBlocks.getEachTopLineCoordinates();
+	for (const auto& figureBlockCoordinates : figureblocks)
 	{
 		if (activeFigure.getBottomY() >= TETRIS_APP_HEIGHT)
 			return true;
-		for (const auto& fieldBlockCoordinates : fieldBlocks.getEachTopLineCoordinates())
+		for (const auto& fieldBlockCoordinates : fieldblocks)
 			if (areBlocksCollided(figureBlockCoordinates, fieldBlockCoordinates))
 				return true;
 	}
@@ -85,12 +87,14 @@ bool GameField::isActiveFigureOnBottomOrFieldBlocks()
 
 bool GameField::areBlocksCollided(const sf::Vector2f& first, const sf::Vector2f& second)
 {
+	return first.x == second.x && first.y + TETRIS_BLOCK_H >= second.y;
+	/*
 	auto firstXright = first.x + TETRIS_BLOCK_W;
-	auto firstYright = first.y + TETRIS_BLOCK_W;
+	auto firstYright = first.y + TETRIS_BLOCK_H;
 
 
 	auto secondXright = second.x + TETRIS_BLOCK_W;
-	auto secondYright = second.y + TETRIS_BLOCK_W;
+	auto secondYright = second.y + TETRIS_BLOCK_H;
 
 
 	auto inRange = [](auto& min, auto& max, auto& val) -> bool {
@@ -109,18 +113,15 @@ bool GameField::areBlocksCollided(const sf::Vector2f& first, const sf::Vector2f&
 		inRange(second.y, secondXright, firstYright);  //  or right point in range
 
 	return isSecondUnderFirst && isBlocksCollided;
-}
+	*/
+	}
 
-void GameField::joinActiveToFieldBlocks()
-{
-	debuglog("join active figure to field blocks");
-	fieldBlocks.join(activeFigure);
-	resetActiveFigure();
-}
+
 
 void GameField::resetActiveFigure()
 {
 	debuglog("recreate active figure");
+	fieldBlocks.join(activeFigure);
 	activeFigure.newRandowFigure();
 }
 

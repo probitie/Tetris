@@ -18,7 +18,9 @@
 
 #define TEXTURE_PATH "C:\\Projects\\cpp\\Tetris\\images\\bricks.PNG"
 
-#define TETRIS_FIGURE_BLOCK_AMOUNT (TETRIS_FIGURE_BLOCK_AMOUNT_COL*TETRIS_FIGURE_BLOCK_AMOUNT_ROW) // block amount (width * height)
+#define TETRIS_FIGURE_BLOCK_AMOUNT 4
+
+// (TETRIS_FIGURE_BLOCK_AMOUNT_COL*TETRIS_FIGURE_BLOCK_AMOUNT_ROW) // block amount (width * height)
 
 #define TETRIS_FIGURE_VERTICAL_SPEED_PX 0.1
 

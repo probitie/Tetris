@@ -67,6 +67,8 @@ void ActiveFigure::setColor(FigureColor color)
 {
 	brick.setTexture(*texture);
 	// todo now it only darkBlue
+
+	currentColor = color;
 	brick.setTextureRect(sf::IntRect(2, 2, 21, 21));
 }
 
@@ -197,7 +199,11 @@ const std::vector<sf::Vector2f> ActiveFigure::getAllBlocksCoordinates() const
 	return result;
 }
 
-const std::vector<std::unique_ptr<Block>> ActiveFigure::popBottomBlocks()
+const std::vector<Block> ActiveFigure::getBlocks()
 {
-    return std::vector<std::unique_ptr<Block>>();
+	debuglog("giving figure blocks");
+	std::vector<Block> res{};
+	for (auto &el : relativeCoordinates)
+		res.push_back(Block(currentColor, toAbsoluteCoordinates(el)));
+    return res;
 }
