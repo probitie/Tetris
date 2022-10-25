@@ -5,9 +5,7 @@
 #include "figure_properties.h"
 #include "types.h"
 
-#include <SFML/Graphics/RectangleShape.hpp>
-#include <SFML/Graphics/Sprite.hpp>
-#include <SFML/Graphics.hpp>
+
 
 class ActiveFigure
 {
@@ -16,7 +14,6 @@ private:
 	
 	// shared ptr to one texture for all blocks
 	// bloks are created when trying to draw or move them or field figure
-	std::shared_ptr<sf::Texture> texture;
 
 	// figure coordinates
 	sf::Vector2f coordinates;
@@ -26,9 +23,6 @@ private:
 	std::array<Point, TETRIS_FIGURE_BLOCK_AMOUNT> relativeCoordinates{ 0 };
 
 	sf::RenderWindow& window;
-
-	// test
-	sf::Sprite brick;
 
 	FigureColor currentColor;
 

@@ -25,10 +25,6 @@ sf::Vector2f ActiveFigure::toAbsoluteCoordinates(const Point& relative) const
 ActiveFigure::ActiveFigure(sf::RenderWindow& window) : window{window}
 {
     debuglog("init active figure container in this window");
-	// load texture
-	texture = std::make_shared<sf::Texture>();
-	texture->loadFromFile(TEXTURE_PATH);
-	//brick.setTexture(*texture);
 	setColor(FigureColor::darkBlue);
 }
 
@@ -58,18 +54,14 @@ void ActiveFigure::draw()
 		// use only one poor(( sprite
 		// to draw our figure
 
-		brick.setPosition(toAbsoluteCoordinates(relativeCoordinates[i]));
-		window.draw(brick);
+		Block drawBlock(currentColor, toAbsoluteCoordinates(relativeCoordinates[i]));
+		drawBlock.draw(window);
 	}
 
 }
 void ActiveFigure::setColor(FigureColor color)
 {
-	brick.setTexture(*texture);
-	// todo now it only darkBlue
-
 	currentColor = color;
-	brick.setTextureRect(sf::IntRect(2, 2, 21, 21));
 }
 
 void ActiveFigure::setProperties(const FigureForm& form, const FigureColor& color, const sf::Vector2f& position)

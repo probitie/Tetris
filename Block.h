@@ -1,6 +1,6 @@
 #pragma once
 #include "libs.h"
-#include <SFML/Graphics/Sprite.hpp>
+#include "constants.h"
 #include "figure_properties.h"
 
 
@@ -15,4 +15,6 @@ public:
 	Block(const FigureColor& color, const sf::Vector2f position);
 
 	inline sf::Vector2f getPosition() const { return coordinates; }
+
+	void draw(sf::RenderWindow& window);
 };
