@@ -20,7 +20,7 @@
 
 // (TETRIS_FIGURE_BLOCK_AMOUNT_COL*TETRIS_FIGURE_BLOCK_AMOUNT_ROW) // block amount (width * height)
 
-#define TETRIS_FIGURE_VERTICAL_SPEED_PX 0.08
+#define TETRIS_FIGURE_VERTICAL_SPEED_PX 0.05
 
 // top left gamefield point (actually a top and left margin)
 #define TETRIS_GAMEFIELD_X 0

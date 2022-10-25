@@ -173,35 +173,11 @@ bool GameField::areBlocksCollidedOnTheRight(const sf::Vector2f& activeBlock, con
 
 	return resX && resY;
 }
-bool GameField::areBlocksCollided(const sf::Vector2f& first, const sf::Vector2f& second) const
+// verticzl collision only
+bool GameField::areBlocksCollided(const sf::Vector2f& activeBlock, const sf::Vector2f& fieldBlock) const
 {
-	return first.x == second.x && first.y + TETRIS_BLOCK_H >= second.y;
-	/*
-	auto firstXright = first.x + TETRIS_BLOCK_W;
-	auto firstYright = first.y + TETRIS_BLOCK_H;
-
-
-	auto secondXright = second.x + TETRIS_BLOCK_W;
-	auto secondYright = second.y + TETRIS_BLOCK_H;
-
-
-	auto inRange = [](auto& min, auto& max, auto& val) -> bool {
-		return min <= val && val <= max;
-	};
-
-	// check X firstly (wether blocks are really one under another)
-	const bool isSecondUnderFirst =
-		inRange(second.x, secondXright, first.x) ||  // left point in range
-		inRange(second.x, secondXright, firstXright);  //  or right point in range
-		
-	
-	// then check their collision by Y (first block bottom crossed top of second)
-	const bool isBlocksCollided =
-		inRange(second.y, secondXright, first.y) ||  // left point in range
-		inRange(second.y, secondXright, firstYright);  //  or right point in range
-
-	return isSecondUnderFirst && isBlocksCollided;
-	*/
+	return inRange(activeBlock.x, fieldBlock.x - 10, fieldBlock.x + 10)
+		&& ((int)activeBlock.y + TETRIS_BLOCK_W) == (int)fieldBlock.y;
 	}
 
 bool GameField::inRange(double who, double from, double to) const
