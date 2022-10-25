@@ -31,7 +31,13 @@ ActiveFigure::ActiveFigure(sf::RenderWindow& window) : window{window}
 void ActiveFigure::newRandowFigure()
 {
     debuglog("create new figure");
-	setProperties(FigureForm::T, FigureColor::darkBlue, sf::Vector2f(0.0f, 0.0f));
+	int formindex = rand() % static_cast<int>(FigureForm::_size);
+	int colorindex = rand() % static_cast<int>(FigureColor::_size);
+	int xshift = rand() % (TETRIS_GAMEFIELD_W / TETRIS_BLOCK_W);
+	xshift = xshift * TETRIS_BLOCK_W;
+
+
+	setProperties(FigureForm(formindex), FigureColor(colorindex), sf::Vector2f(xshift, 0.0f));
 }
 
 void ActiveFigure::draw()
@@ -69,6 +75,8 @@ void ActiveFigure::setProperties(const FigureForm& form, const FigureColor& colo
     debuglog("set new properties to the active figure conainer");
 
 	coordinates = position;
+
+	currentColor = color;
 
 	// create figure
 	for (int i{ 0 }; i < TETRIS_FIGURE_BLOCK_AMOUNT_COL; ++i)

@@ -12,6 +12,8 @@ int main()
 {
 //#define TETRIS_TESTING
 
+	srand(time(NULL));
+
 #ifdef TETRIS_TESTING
 	testing::InitGoogleTest();
 	::testing::InitGoogleMock();

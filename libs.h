@@ -16,3 +16,4 @@
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics.hpp>
 #include "logger.h"
+#include <cstdlib>
