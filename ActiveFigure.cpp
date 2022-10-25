@@ -37,7 +37,7 @@ void ActiveFigure::newRandowFigure()
 	xshift = xshift * TETRIS_BLOCK_W;
 
 
-	setProperties(FigureForm(formindex), FigureColor(colorindex), sf::Vector2f(xshift, 0.0f));
+	setProperties(FigureForm(formindex), FigureColor(colorindex), sf::Vector2f(xshift, 0.0f-TETRIS_BLOCK_H*4));
 }
 
 void ActiveFigure::draw()
