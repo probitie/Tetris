@@ -48,6 +48,8 @@ public:
 	/// </summary>
 	void move(const sf::Vector2f& vector);
 
+	void setLocation(const sf::Vector2f& vector);
+
 	/// <summary>
 	/// rotate figure on 90 degrees counterclockwise
 	/// </summary>

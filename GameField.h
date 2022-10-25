@@ -58,6 +58,15 @@ public:
 	/// </summary>	
 	void moveActiveFigureForceDown();
 
+	bool fieldBlockOnTheLeftOfActiveFigure() const;
+	bool fieldBlockOnTheRightOfActiveFigure() const;
+
+	bool areBlocksCollidedOnTheLeft(const sf::Vector2f& first, const sf::Vector2f& second) const;
+
+	bool areBlocksCollidedOnTheRight(const sf::Vector2f& first, const sf::Vector2f& second) const;
+
+	bool inRange(double who, double from, double to) const;
+
 	/// <summary>
 	/// rotates current tetramino on 90d counterclockwise
 	/// (calls the same method from ActiveFigure)
@@ -95,7 +104,7 @@ public:
 	/// <param name="first"> first block coordinates </param>
 	/// <param name="second"> second block coordinates </param>
 	/// <returns> if one block collided another </returns>
-	bool areBlocksCollided(const sf::Vector2f &first, const sf::Vector2f& second);
+	bool areBlocksCollided(const sf::Vector2f &first, const sf::Vector2f& second) const;
 
 
 

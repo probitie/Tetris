@@ -35,7 +35,7 @@ ActiveFigure::ActiveFigure(sf::RenderWindow& window) : window{window}
 void ActiveFigure::newRandowFigure()
 {
     debuglog("create new figure");
-	setProperties(FigureForm::T, FigureColor::darkBlue, sf::Vector2f(20.0f, 0.0f));
+	setProperties(FigureForm::T, FigureColor::darkBlue, sf::Vector2f(0.0f, 0.0f));
 }
 
 void ActiveFigure::draw()
@@ -124,6 +124,13 @@ void ActiveFigure::move(const sf::Vector2f& vector)
 	this->coordinates.y += vector.y;
 }
 
+// only changes figure coordinates but not the bricks
+void ActiveFigure::setLocation(const sf::Vector2f& vector)
+{
+	this->coordinates.x = vector.x;
+	this->coordinates.y = vector.y;
+}
+
 void ActiveFigure::rotate()
 {
     debuglog("rotate figure");
@@ -171,7 +178,7 @@ const double ActiveFigure::getMostRightX() const
 			mostRightX = absCoord.x;
 		}
 	}
-	return mostRightX;
+	return mostRightX + TETRIS_BLOCK_W;
 }
 
 const double ActiveFigure::getBottomY() const

@@ -1,12 +1,36 @@
 #include "GameField.h"
 
 GameField::GameField(sf::RenderWindow& window)
-	: window{ window }, fieldBlocks{ window }, activeFigure{window}
+	: window{ window }, fieldBlocks{ window }, activeFigure{ window }
 {
 	debuglog("game field initialized");
 
 	// when the game starts
 	activeFigure.newRandowFigure();
+
+	// todo debug
+	//activeFigure.move(sf::Vector2f(42.0f, 0.0f));
+	//this->fieldBlocks.join(activeFigure);
+	//activeFigure.move(sf::Vector2f(-42.0f, 0.0f));
+
+	/*bool r{};
+	auto figureblocks = activeFigure.getAllBlocksCoordinates();
+	auto fieldblocks = fieldBlocks.getEachTopLineCoordinates();
+	for (const auto& figureBlockCoordinates : figureblocks)
+		for (const auto& fieldBlockCoordinates : fieldblocks)
+		{
+			r = r || fieldBlockOnTheRightOfActiveFigure();
+			if (r)
+			{
+				std::cout << r;
+			}
+		}
+
+	std::cout << r;*/
+
+
+
+
 
 }
 
@@ -21,10 +45,19 @@ void GameField::moveActiveFigureRight()
 	debuglog("move active figure right");
 	const double x = activeFigure.getMostRightX();
 
-	if (x < TETRIS_GAMEFIELD_W)
-		activeFigure.move(sf::Vector2f(TETRIS_BLOCK_W, 0));
-	else
-		debuglog("can not move right ( current position " << x << " is more than " << TETRIS_GAMEFIELD_W );
+	if (x >= TETRIS_GAMEFIELD_W)
+	{
+		debuglog("can not move right ( current position " << x << " is more than " << TETRIS_GAMEFIELD_W);
+		return;
+	}
+
+	if (fieldBlockOnTheRightOfActiveFigure())
+	{
+		debuglog("can not move right, field block on the way");
+		return;
+	}
+
+	activeFigure.move(sf::Vector2f(TETRIS_BLOCK_W, 0));
 }
 
 void GameField::moveActiveFigureLeft()
@@ -32,10 +65,43 @@ void GameField::moveActiveFigureLeft()
 	debuglog("move active figure left");
 	const double x = activeFigure.getMostLeftX();
 
-	if (x > TETRIS_GAMEFIELD_X)
-		activeFigure.move(sf::Vector2f(-TETRIS_BLOCK_W, 0));
-	else
+	if (x <= TETRIS_GAMEFIELD_X)
+	{
 		debuglog("can not move left ( current position " << x << " is less than " << TETRIS_GAMEFIELD_X);
+		return;
+	}
+
+	if (fieldBlockOnTheLeftOfActiveFigure())
+	{
+		debuglog("can not move left, field block on the way");
+		return;
+	}
+	activeFigure.move(sf::Vector2f(-TETRIS_BLOCK_W, 0));
+
+}
+
+bool GameField::fieldBlockOnTheLeftOfActiveFigure() const
+{
+	auto activeblocks = activeFigure.getAllBlocksCoordinates();
+	auto fieldblocks = fieldBlocks.getEachTopLineCoordinates();
+	for (int active = 0; active < activeblocks.size(); active++)
+		for (int field = 0; field < fieldblocks.size(); field++)
+			if (areBlocksCollidedOnTheLeft(activeblocks.at(active), fieldblocks.at(field)))
+				return true;
+			else continue;
+	return false;
+}
+
+bool GameField::fieldBlockOnTheRightOfActiveFigure() const
+{
+	auto figureblocks = activeFigure.getAllBlocksCoordinates();
+	auto fieldblocks = fieldBlocks.getEachTopLineCoordinates();
+	for (const auto& figureBlockCoordinates : figureblocks)
+		for (const auto& fieldBlockCoordinates : fieldblocks)
+			if (areBlocksCollidedOnTheRight(figureBlockCoordinates, fieldBlockCoordinates))
+				return true;
+			else continue;
+	return false;
 }
 
 void GameField::moveActiveFigureDown()
@@ -85,7 +151,29 @@ bool GameField::isActiveFigureOnBottomOrFieldBlocks()
 	return false;
 }
 
-bool GameField::areBlocksCollided(const sf::Vector2f& first, const sf::Vector2f& second)
+//left from first
+bool GameField::areBlocksCollidedOnTheLeft(const sf::Vector2f& activeBlock, const sf::Vector2f& fieldBlock) const
+{
+	// first on the right, second on the left // TODO it's just fro debug purposes
+
+	bool resX = inRange((int)activeBlock.x, (int)fieldBlock.x + TETRIS_BLOCK_W - 10, (int)fieldBlock.x + TETRIS_BLOCK_W + 10);
+	bool resY = inRange(activeBlock.y, fieldBlock.y - 10, fieldBlock.y + TETRIS_BLOCK_H + 10)
+		|| inRange(activeBlock.y + TETRIS_BLOCK_H, fieldBlock.y - 10, fieldBlock.y + TETRIS_BLOCK_H + 10);
+
+	return resX && resY;
+
+}
+
+// right from first
+bool GameField::areBlocksCollidedOnTheRight(const sf::Vector2f& activeBlock, const sf::Vector2f& fieldBlock) const
+{
+	bool resX = inRange((int)activeBlock.x, (int)fieldBlock.x - TETRIS_BLOCK_W - 10, (int)fieldBlock.x - TETRIS_BLOCK_W + 10);
+	bool resY = inRange(activeBlock.y, fieldBlock.y - 10, fieldBlock.y + TETRIS_BLOCK_H + 10)
+		|| inRange(activeBlock.y + TETRIS_BLOCK_H, fieldBlock.y - 10, fieldBlock.y + TETRIS_BLOCK_H + 10);
+
+	return resX && resY;
+}
+bool GameField::areBlocksCollided(const sf::Vector2f& first, const sf::Vector2f& second) const
 {
 	return first.x == second.x && first.y + TETRIS_BLOCK_H >= second.y;
 	/*
@@ -116,6 +204,11 @@ bool GameField::areBlocksCollided(const sf::Vector2f& first, const sf::Vector2f&
 	*/
 	}
 
+bool GameField::inRange(double who, double from, double to) const
+{
+	auto res = from <= who && who <= to; 
+	return res;
+}
 
 
 void GameField::resetActiveFigure()

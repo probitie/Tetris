@@ -2,8 +2,6 @@
 #include <cstdint>
 
 // all constants values are in pixels
-#define TETRIS_APP_WIDTH 800
-#define TETRIS_APP_HEIGHT 800
 #define TETRIS_FRAMES_DELAY_MS 200
 
 // DO NOT TOUCH IT
@@ -22,7 +20,7 @@
 
 // (TETRIS_FIGURE_BLOCK_AMOUNT_COL*TETRIS_FIGURE_BLOCK_AMOUNT_ROW) // block amount (width * height)
 
-#define TETRIS_FIGURE_VERTICAL_SPEED_PX 0.1
+#define TETRIS_FIGURE_VERTICAL_SPEED_PX 0.08
 
 // top left gamefield point (actually a top and left margin)
 #define TETRIS_GAMEFIELD_X 0
@@ -31,6 +29,9 @@
 // bottom right gamefield point (actually the width and height)
 #define TETRIS_GAMEFIELD_W (TETRIS_BLOCK_W * TETRIS_BLOCK_AMOUNT_ROW)
 #define TETRIS_GAMEFIELD_H (TETRIS_BLOCK_H * TETRIS_BLOCK_AMOUNT_COL)
+
+#define TETRIS_APP_WIDTH TETRIS_GAMEFIELD_W
+#define TETRIS_APP_HEIGHT TETRIS_GAMEFIELD_H
 
 // control buttons
 #define TETRIS_RIGHT Keyboard::Right
