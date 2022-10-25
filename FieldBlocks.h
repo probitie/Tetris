@@ -9,8 +9,6 @@ class FieldBlocks
 {
 private:
 	sf::RenderWindow& window;
-	std::shared_ptr<sf::Texture> texture;
-	sf::Sprite brick;
 	std::vector<Block> blocks;
 
 public:
