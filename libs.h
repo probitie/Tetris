@@ -15,5 +15,6 @@
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics.hpp>
+#include <unordered_map>
 #include "logger.h"
 #include <cstdlib>

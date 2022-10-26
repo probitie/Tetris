@@ -1,8 +1,14 @@
 #include "FieldBlocks.h"
 
-FieldBlocks::FieldBlocks(sf::RenderWindow& window) : blocks{}, window{ window }
+FieldBlocks::FieldBlocks(sf::RenderWindow& window) : blockRows{}, window{ window }
 {
 	debuglog("creating field blocks");
+	
+	// init block rows
+	for (int i = 0; i < TETRIS_BLOCK_AMOUNT_COL; i++)
+	{
+		blockRows.push_back(std::vector<Block>{});
+	}
 
 	// todo now it only darkBlue
 }
@@ -10,27 +16,41 @@ FieldBlocks::FieldBlocks(sf::RenderWindow& window) : blocks{}, window{ window }
 
 void FieldBlocks::draw()
 {
-	for (auto& el : blocks)
-	{
-		// TODO set color
-		el.draw(window);
-	}
+	for (auto& row : blockRows)
+		for (auto& el : row)
+		{
+
+			// TODO set color
+			el.draw(window);
+		}
+	
 }
 
 const std::vector<int> FieldBlocks::getFullRowsIndexes() const
 {
-	return std::vector<int>();
+	std::vector<int> res{};
+	
+
+	for (int i = 0; i < blockRows.size(); i++)
+	{
+		auto& row = blockRows.at(i);
+		if (row.size() >= TETRIS_BLOCK_AMOUNT_ROW-4)
+			res.push_back(i);
+	}
+	return res;
 }
 
 void FieldBlocks::deleteRowAndSqueeze(const int index)
 {
 	debuglog("deleting row " << index << " and compress field blocks");
+	blockRows.at(index).clear();
 }
 
 const std::vector<sf::Vector2f> FieldBlocks::getEachTopLineCoordinates() const
 {
 	std::vector<sf::Vector2f> result;
-	for (const auto& el : blocks)
+	for (auto& row : blockRows)
+		for (auto& el : row)
 	{
 		result.push_back(el.getPosition());
 	}
@@ -41,7 +61,17 @@ void FieldBlocks::join(ActiveFigure& figure)
 {
 	debuglog("joining figure blocks to the field");
 	auto& elements = figure.getBlocks();
-	blocks.insert(std::end(blocks),
-		std::begin(elements),
-		std::end(elements));
+	for (int i = 0; i< blockRows.size(); i++)
+	{
+		auto &row = blockRows.at(i);
+
+		for (auto& activeBlock : elements)
+		{
+			if (((int)activeBlock.getPosition().y) == i * TETRIS_BLOCK_H)
+
+				row.push_back(activeBlock);
+
+		}
+	}
+	return;
 }

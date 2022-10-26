@@ -9,7 +9,7 @@ class FieldBlocks
 {
 private:
 	sf::RenderWindow& window;
-	std::vector<Block> blocks;
+	std::vector<std::vector<Block>> blockRows;
 
 public:
 
