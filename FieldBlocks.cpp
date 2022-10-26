@@ -34,7 +34,7 @@ const std::vector<int> FieldBlocks::getFullRowsIndexes() const
 	for (int i = 0; i < blockRows.size(); i++)
 	{
 		auto& row = blockRows.at(i);
-		if (row.size() >= TETRIS_BLOCK_AMOUNT_ROW-4)
+		if (row.size() >= TETRIS_BLOCK_AMOUNT_ROW)
 			res.push_back(i);
 	}
 	return res;
@@ -44,6 +44,16 @@ void FieldBlocks::deleteRowAndSqueeze(const int index)
 {
 	debuglog("deleting row " << index << " and compress field blocks");
 	blockRows.at(index).clear();
+
+	for (int i = index; i > 0; i--)
+	{
+		// move row down
+		blockRows.at(i) = blockRows.at(i - 1);
+
+		// move actual blocks down
+		for (auto& block : blockRows.at(i))
+			block.move({ 0.0f, TETRIS_BLOCK_H });
+	}
 }
 
 const std::vector<sf::Vector2f> FieldBlocks::getEachTopLineCoordinates() const
