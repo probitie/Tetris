@@ -33,7 +33,7 @@ void ActiveFigure::newRandowFigure()
     debuglog("create new figure");
 	int formindex = rand() % static_cast<int>(FigureForm::_size);
 	int colorindex = rand() % static_cast<int>(FigureColor::_size);
-	int xshift = rand() % (TETRIS_GAMEFIELD_W / TETRIS_BLOCK_W);
+	int xshift = rand() % ((TETRIS_GAMEFIELD_W / TETRIS_BLOCK_W)-1);
 	xshift = xshift * TETRIS_BLOCK_W;
 
 
