@@ -192,5 +192,16 @@ void GameField::resetActiveFigure()
 	activeFigure.newRandowFigure();
 }
 
+float GameField::getActiveFigureX()
+{
+	auto&& coords = activeFigure.getAllBlocksCoordinates();
+	auto it = std::min_element(coords.begin(),
+		coords.end(),
+		[](const auto& a, const auto& b) {
+			return a.y < b.y;
+		});
+	return (*it).y;
+}
+
 
 

@@ -78,6 +78,9 @@ void Tetris::update()
 	// if tetramino is already fallen on the field bottom/blocks
 	if (field.isActiveFigureOnBottomOrFieldBlocks())
 	{
+		
+		if (field.getActiveFigureX() < 0)
+			lose = true;
 		field.resetActiveFigure();
 	}
 	else
@@ -100,7 +103,7 @@ bool Tetris::isGameFinish()
 {
 	// asks game field if activeFigure has spawned or not 
 	// ( if it is unable t spawn it means there is no space left )
-	return false;
+	return lose;
 }
 
 void Tetris::outputUserLose()

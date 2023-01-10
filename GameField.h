@@ -116,5 +116,6 @@ public:
 	/// </summary>
 	void resetActiveFigure();
 
+	float getActiveFigureX();
 };
 

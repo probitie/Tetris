@@ -12,6 +12,8 @@ private:
 	GameField field;
 	RenderWindow& window;
 
+	bool lose = false;
+
 public:
 
 	Tetris(RenderWindow& window);
