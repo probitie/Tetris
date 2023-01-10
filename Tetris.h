@@ -13,6 +13,10 @@ private:
 	RenderWindow& window;
 
 	bool lose = false;
+	int score = 0;
+
+	std::string font_filepath = "C:\\Projects\\cpp\\Tetris\\resources\\sansation.ttf";
+	sf::Font font;
 
 public:
 

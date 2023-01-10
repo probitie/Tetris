@@ -1,16 +1,22 @@
 #include "Tetris.h"
 #include <SFML/System/Sleep.hpp>
+#include <sstream>
 
 Tetris::Tetris(RenderWindow& window)
 	: window{ window }, field{ window }
 {
-	// empty constructor //
+	sf::Font font;
+	if (!font.loadFromFile(font_filepath))
+	{
+		throw std::exception("can not load font");
+	}
 }
 
 void Tetris::play()
 
 {
 	Event ev;
+
 	while (window.isOpen())
 	{
 		// check end of the game
@@ -20,6 +26,7 @@ void Tetris::play()
 			outputUserLose();
 
 			// todo wait for user click before closing the application
+			std::cin.get();
 			return;
 		}
 
@@ -82,9 +89,11 @@ void Tetris::update()
 		if (field.getActiveFigureX() < 0)
 			lose = true;
 		field.resetActiveFigure();
+
 	}
 	else
 	{
+		//score++;
 		// check if it is time to squeeze blocks on the field
 		// but before compressing we need to find full rows
 		// (wihout spaces in them), then delete all blocks in them
@@ -92,6 +101,7 @@ void Tetris::update()
 		for (auto& row : field.getFullRowsIndexes())
 		{
 			field.deleteRowAndSqueeze(row);
+			score+=1;
 		}
 
 		// move tetramino on a step down
@@ -109,6 +119,7 @@ bool Tetris::isGameFinish()
 void Tetris::outputUserLose()
 {
 	debuglog("saying to user he lose the game");
+	std::cout << "Your score was " << score << "00\n";
 }
 
 void Tetris::pause()
