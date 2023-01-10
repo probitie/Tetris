@@ -154,22 +154,20 @@ bool GameField::isActiveFigureOnBottomOrFieldBlocks()
 //left from first
 bool GameField::areBlocksCollidedOnTheLeft(const sf::Vector2f& activeBlock, const sf::Vector2f& fieldBlock) const
 {
-	// first on the right, second on the left // TODO it's just fro debug purposes
-
-	bool resX = inRange((int)activeBlock.x, (int)fieldBlock.x + TETRIS_BLOCK_W - 10, (int)fieldBlock.x + TETRIS_BLOCK_W + 10);
-	bool resY = inRange(activeBlock.y, fieldBlock.y - 10, fieldBlock.y + TETRIS_BLOCK_H + 10)
-		|| inRange(activeBlock.y + TETRIS_BLOCK_H, fieldBlock.y - 10, fieldBlock.y + TETRIS_BLOCK_H + 10);
-
-	return resX && resY;
-
+	return areBlocksCollidedOnTheRight(fieldBlock, activeBlock);
 }
 
 // right from first
 bool GameField::areBlocksCollidedOnTheRight(const sf::Vector2f& activeBlock, const sf::Vector2f& fieldBlock) const
 {
-	bool resX = inRange((int)activeBlock.x, (int)fieldBlock.x - TETRIS_BLOCK_W - 10, (int)fieldBlock.x - TETRIS_BLOCK_W + 10);
-	bool resY = inRange(activeBlock.y, fieldBlock.y - 10, fieldBlock.y + TETRIS_BLOCK_H + 10)
-		|| inRange(activeBlock.y + TETRIS_BLOCK_H, fieldBlock.y - 10, fieldBlock.y + TETRIS_BLOCK_H + 10);
+	// 10 is the range
+	constexpr int rng = 3;
+	constexpr int reduceY = 20;
+	bool resX = inRange((int)activeBlock.x, (int)fieldBlock.x - TETRIS_BLOCK_W - rng, (int)fieldBlock.x - TETRIS_BLOCK_W + rng);
+
+
+	bool resY = inRange(activeBlock.y, fieldBlock.y - rng, fieldBlock.y + TETRIS_BLOCK_H + rng - reduceY)
+		|| inRange(activeBlock.y + TETRIS_BLOCK_H, fieldBlock.y, fieldBlock.y + TETRIS_BLOCK_H + rng);
 
 	return resX && resY;
 }
