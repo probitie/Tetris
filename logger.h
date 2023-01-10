@@ -9,3 +9,12 @@
 // you can use it like this "debuglog("Hello " << user->name)"
 #define debuglog(message) std::cout << __FILENAME__ << "::" << __LINE__ \
 << "::" << __FUNCTION__ << ":: " << message << std::endl
+
+
+// DISCONNECTED LOGGER
+
+// in .h
+inline std::ostream devnull(0);
+
+// in .cpp
+#define debuglog(message) devnull<<message
